@@ -1,17 +1,58 @@
 import "../index.css";
+import React, { useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 function App() {
+  function handleCardClick() {}
+  //________________________________________________________________________//
+  // MY ATTEMPT AT SETTING THE STATE VARIABLES FOR THE POPUP VISIBILITY
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
+
+  function handleEditAvatarClick() {
+    setIsEditProfilePopupOpen(true);
+    // const AvatarBtn = document.querySelector(".js-pic-modal");
+    // AvatarBtn.classList.add("modal__is-opened");
+  }
+  function handleEditProfileClick() {
+    setIsAddPlacePopupOpen(true);
+    // const ProfileBtn = document.querySelector(".js-edit-modal");
+    // ProfileBtn.classList.add("modal__is-opened");
+  }
+  function handleAddPlaceClick() {
+    setIsEditAvatarPopupOpen(true);
+    // const cardBtn = document.querySelector(".js-add-modal");
+    // cardBtn.classList.add("modal__is-opened");
+  }
+
+  //________________________________________________________________________//
+  //
+
   return (
     <div className="App">
       <section className="page">
         <Header />
-        <Main />
+        <Main
+          onEditAvatarClick={handleEditAvatarClick}
+          onEditProfileClick={handleEditProfileClick}
+          onAddPlaceClick={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+        />
         <Footer />
-        <PopupWithForm name="pic" title="Edit profile pic" submit="Save">
+        <ImagePopup />
+        <PopupWithForm
+          name="pic"
+          title="Edit profile pic"
+          submit="Save"
+          isOpen={isEditAvatarPopupOpen}
+        >
           <label name="">
             <input
               id="pic-input"
@@ -29,7 +70,12 @@ function App() {
           title="Are you sure?"
           submit="Yes"
         ></PopupWithForm>
-        <PopupWithForm name="edit" title="Edit profile" submit="Save">
+        <PopupWithForm
+          name="edit"
+          title="Edit profile"
+          submit="Save"
+          isOpen={isEditProfilePopupOpen}
+        >
           <label name="">
             <input
               id="name-input"
@@ -58,7 +104,12 @@ function App() {
             <span id="title-input-error" className="modal__input-error"></span>
           </label>
         </PopupWithForm>
-        <PopupWithForm name="add" title="New Place" submit="Create">
+        <PopupWithForm
+          name="add"
+          title="New Place"
+          submit="Create"
+          isOpen={isAddPlacePopupOpen}
+        >
           <input
             id="place-input"
             name="name"
@@ -80,150 +131,6 @@ function App() {
           />
           <span id="url-input-error" className="modal__input-error"></span>
         </PopupWithForm>
-        <div className="modal js-pic-modal">
-          <div className="modal__container">
-            <form className="modal__box" name="edit-pic" noValidate>
-              <h2 className="modal__profile">Change profile picture</h2>
-              <label name="">
-                <input
-                  id="pic-input"
-                  name="link"
-                  type="url"
-                  className="modal__input modal__input_edit_pic"
-                  placeholder="link"
-                  required
-                />
-              </label>
-              <button type="submit" className="modal__button" aria-label="save">
-                Save
-              </button>
-            </form>
-            <button
-              className="modal__close-button"
-              type="button"
-              aria-label="close"
-            ></button>
-          </div>
-        </div>
-        <div className="modal js-delete-modal">
-          <div className="modal__container">
-            <form className="modal__box" name="delete-card" noValidate>
-              <h2 className="modal__profile">Are you sure?</h2>
-              <button type="submit" className="modal__button" aria-label="yes">
-                Yes
-              </button>
-            </form>
-            <button
-              className="modal__close-button"
-              type="button"
-              aria-label="close"
-            ></button>
-          </div>
-        </div>
-
-        <div className="modal js-edit-modal">
-          <div className="modal__container">
-            <form className="modal__box" name="edit-profile" noValidate>
-              <h2 className="modal__profile">Edit profile</h2>
-              <label name="">
-                <input
-                  id="name-input"
-                  name="name"
-                  type="text"
-                  className="modal__input modal__input_profile_name"
-                  placeholder="Name"
-                  required
-                  minLength="2"
-                  maxLength="40"
-                />
-                <span
-                  id="name-input-error"
-                  className="modal__input-error"
-                ></span>
-              </label>
-              <label name="">
-                <input
-                  id="title-input"
-                  name="title"
-                  type="text"
-                  className="modal__input modal__input_profile_title"
-                  placeholder="About me"
-                  required
-                  minLength="2"
-                  maxLength="200"
-                />
-
-                <span
-                  id="title-input-error"
-                  className="modal__input-error"
-                ></span>
-              </label>
-              <button type="submit" className="modal__button" aria-label="save">
-                Save
-              </button>
-            </form>
-            <button
-              className="modal__close-button"
-              type="button"
-              aria-label="close"
-            ></button>
-          </div>
-        </div>
-
-        <div className="modal js-add-modal">
-          <div className="modal__container">
-            <form className="modal__box" name="edit-place" noValidate>
-              <h2 className="modal__profile">New Place</h2>
-              <input
-                id="place-input"
-                name="name"
-                type="text"
-                className="modal__input modal__input_image_title"
-                placeholder="Title"
-                required
-                minLength="1"
-                maxLength="30"
-              />
-              <span
-                id="place-input-error"
-                className="modal__input-error"
-              ></span>
-              <input
-                id="url-input"
-                name="link"
-                type="url"
-                className="modal__input modal__input_image_link"
-                placeholder="Image link"
-                required
-              />
-              <span id="url-input-error" className="modal__input-error"></span>
-              <button
-                type="submit"
-                className="modal__button"
-                aria-label="create"
-              >
-                Create
-              </button>
-            </form>
-            <button
-              className="modal__close-button"
-              type="button"
-              aria-label="close"
-            ></button>
-          </div>
-        </div>
-        <div className="modal js-preview-modal">
-          <div className="modal__container modal__container_preview">
-            <button
-              className="modal__close-button"
-              type="button"
-              aria-label="close"
-            ></button>
-            <img className="modal__preview-image" src=" " alt="" />
-            <p className="modal__preview-text"></p>
-          </div>
-        </div>
-
         <template id="card-template">
           <div className="card__item">
             <img className="card__image" src=" " alt="" />
