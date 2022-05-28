@@ -1,6 +1,28 @@
+import React from "react";
 import "../index.css";
+import api from "../utils/api.js";
 
 function Main(props) {
+  const [username, setUsername] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState();
+  React.useEffect(() => {
+    api.getProfileInfo().then((userData) => {
+      setUsername(userData.name);
+      setUserDescription(userData.about);
+      setUserAvatar(userData.avatar);
+    });
+  }, []);
+  const [cards, setCard] = React.useState([]);
+  React.useEffect(() => {
+    api.getInitialCards().then((card) => {
+      setCard(card);
+    });
+  }, []);
+  function handleClick() {
+    props.onCardClick(props.card);
+  }
+
   return (
     <main className="content">
       <section className="profile">
@@ -9,7 +31,8 @@ function Main(props) {
             <img
               className="profile__pic"
               id="imageImg"
-              alt="asdfsadfasdfas ds"
+              alt=""
+              src={userAvatar}
             />
             <button
               className="profile__pic-button"
@@ -19,7 +42,7 @@ function Main(props) {
           </div>
           <div className="profile__main">
             <div className="profile__title">
-              <h1 className="profile__title-name">Jacques Cousteau</h1>
+              <h1 className="profile__title-name">{username}</h1>
               <button
                 onClick={props.onEditProfileClick}
                 className="profile__edit-button"
@@ -27,7 +50,7 @@ function Main(props) {
                 aria-label="edit profile"
               ></button>
             </div>
-            <p className="profile__text-job">Explorer</p>
+            <p className="profile__text-job">{userDescription}</p>
           </div>
         </div>
 
@@ -38,8 +61,6 @@ function Main(props) {
           aria-label="add"
         ></button>
       </section>
-
-      <section className="cards" onClick={props.onCardClick}></section>
     </main>
   );
 }

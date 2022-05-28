@@ -1,13 +1,13 @@
 import "../index.css";
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import Card from "./Card";
 
 function App() {
-  function handleCardClick() {}
   //________________________________________________________________________//
   // MY ATTEMPT AT SETTING THE STATE VARIABLES FOR THE POPUP VISIBILITY
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -15,21 +15,26 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState();
+
+  function handleCardClick() {
+    setSelectedCard(true);
+  }
 
   function handleEditAvatarClick() {
-    setIsEditProfilePopupOpen(true);
-    // const AvatarBtn = document.querySelector(".js-pic-modal");
-    // AvatarBtn.classList.add("modal__is-opened");
+    setIsEditAvatarPopupOpen(true);
   }
   function handleEditProfileClick() {
-    setIsAddPlacePopupOpen(true);
-    // const ProfileBtn = document.querySelector(".js-edit-modal");
-    // ProfileBtn.classList.add("modal__is-opened");
+    setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick() {
-    setIsEditAvatarPopupOpen(true);
-    // const cardBtn = document.querySelector(".js-add-modal");
-    // cardBtn.classList.add("modal__is-opened");
+    setIsAddPlacePopupOpen(true);
+  }
+  function handleCloseAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
   }
 
   //________________________________________________________________________//
@@ -45,13 +50,14 @@ function App() {
           onAddPlaceClick={handleAddPlaceClick}
           onCardClick={handleCardClick}
         />
-        <Footer />
+        <Card />
         <ImagePopup />
         <PopupWithForm
           name="pic"
           title="Edit profile pic"
           submit="Save"
           isOpen={isEditAvatarPopupOpen}
+          onClose={handleCloseAllPopups}
         >
           <label name="">
             <input
@@ -75,6 +81,7 @@ function App() {
           title="Edit profile"
           submit="Save"
           isOpen={isEditProfilePopupOpen}
+          onClose={handleCloseAllPopups}
         >
           <label name="">
             <input
@@ -109,6 +116,7 @@ function App() {
           title="New Place"
           submit="Create"
           isOpen={isAddPlacePopupOpen}
+          onClose={handleCloseAllPopups}
         >
           <input
             id="place-input"
@@ -131,23 +139,7 @@ function App() {
           />
           <span id="url-input-error" className="modal__input-error"></span>
         </PopupWithForm>
-        <template id="card-template">
-          <div className="card__item">
-            <img className="card__image" src=" " alt="" />
-            <img id="trash-svg" alt="trash icon" className="card__trash" />
-            <div className="card__text">
-              <h2 className="card__place">a</h2>
-              <div className="card__like">
-                <button
-                  className="card__like-button"
-                  type="button"
-                  aria-label="like"
-                ></button>
-                <p className="card__like-text"></p>
-              </div>
-            </div>
-          </div>
-        </template>
+        <Footer />
       </section>
     </div>
   );
