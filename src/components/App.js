@@ -17,8 +17,8 @@ function App() {
     React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState();
 
-  function handleCardClick() {
-    setSelectedCard(true);
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   function handleEditAvatarClick() {
@@ -51,7 +51,7 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Card />
-        <ImagePopup />
+        <ImagePopup card={selectedCard} />
         <PopupWithForm
           name="pic"
           title="Edit profile pic"

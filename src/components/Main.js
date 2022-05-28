@@ -1,6 +1,7 @@
 import React from "react";
 import "../index.css";
 import api from "../utils/api.js";
+import Card from "./Card";
 
 function Main(props) {
   const [username, setUsername] = React.useState();
@@ -19,9 +20,6 @@ function Main(props) {
       setCard(card);
     });
   }, []);
-  function handleClick() {
-    props.onCardClick(props.card);
-  }
 
   return (
     <main className="content">
@@ -61,6 +59,9 @@ function Main(props) {
           aria-label="add"
         ></button>
       </section>
+      {cards.map((card) => (
+        <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+      ))}
     </main>
   );
 }
