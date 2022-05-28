@@ -59,9 +59,12 @@ function Main(props) {
           aria-label="add"
         ></button>
       </section>
-      {cards.map((card) => (
-        <Card key={card._id} card={card} onCardClick={props.onCardClick} />
-      ))}
+
+      <section className="cards">
+        {cards.map((card) => (
+          <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+        ))}
+      </section>
     </main>
   );
 }

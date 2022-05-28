@@ -5,7 +5,6 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-import Card from "./Card";
 
 function App() {
   //________________________________________________________________________//
@@ -18,7 +17,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState();
 
   function handleCardClick(card) {
-    setSelectedCard(card);
+    setSelectedCard(card._id);
   }
 
   function handleEditAvatarClick() {
@@ -50,8 +49,8 @@ function App() {
           onAddPlaceClick={handleAddPlaceClick}
           onCardClick={handleCardClick}
         />
-        <Card />
-        <ImagePopup card={selectedCard} />
+
+        <ImagePopup card={selectedCard} onClose={handleCloseAllPopups} />
         <PopupWithForm
           name="pic"
           title="Edit profile pic"
