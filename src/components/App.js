@@ -14,10 +14,10 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState();
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleCardClick(card) {
-    setSelectedCard(card._id);
+    setSelectedCard(card);
   }
 
   function handleEditAvatarClick() {
@@ -33,7 +33,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({});
   }
 
   //________________________________________________________________________//
@@ -54,7 +54,7 @@ function App() {
         <PopupWithForm
           name="pic"
           title="Edit profile pic"
-          submit="Save"
+          submitBtnText="Save"
           isOpen={isEditAvatarPopupOpen}
           onClose={handleCloseAllPopups}
         >
@@ -73,12 +73,12 @@ function App() {
         <PopupWithForm
           name="delete"
           title="Are you sure?"
-          submit="Yes"
+          submitBtnText="Yes"
         ></PopupWithForm>
         <PopupWithForm
           name="edit"
           title="Edit profile"
-          submit="Save"
+          submitBtnText="Save"
           isOpen={isEditProfilePopupOpen}
           onClose={handleCloseAllPopups}
         >
@@ -113,7 +113,7 @@ function App() {
         <PopupWithForm
           name="add"
           title="New Place"
-          submit="Create"
+          submitBtnText="Create"
           isOpen={isAddPlacePopupOpen}
           onClose={handleCloseAllPopups}
         >
