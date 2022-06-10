@@ -17,7 +17,7 @@ function PopupWithForm(props) {
               type="submit"
               className="modal__button"
               aria-label={props.submitBtnText}
-              onSubmit={props.onSubmit}
+              onClick={props.onSubmit}
             >
               {props.submitBtnText}
             </button>

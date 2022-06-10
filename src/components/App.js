@@ -5,6 +5,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -23,6 +24,14 @@ function App() {
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] =
     React.useState(false);
 
+  function handleUpdateUser(profile) {
+    api
+      .updateProfile(profile)
+      .then(() => {
+        setCurrentUser({ profile });
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
+  }
   React.useEffect(() => {
     api
       .getProfileInfo()
@@ -31,13 +40,6 @@ function App() {
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }, []);
-  function handleUpdateUser(user) {
-    api.updateProfile(user).then((newUser) => {
-      setCurrentUser(newUser).catch((err) =>
-        console.error(`Error: ${err.status}`)
-      );
-    });
-  }
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -83,71 +85,19 @@ function App() {
             onClose={handleCloseAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <PopupWithForm
-            name="pic"
-            title="Edit profile pic"
-            submitBtnText="Save"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={handleCloseAllPopups}
-          >
-            <label name="">
-              <input
-                id="pic-input"
-                name="link"
-                type="url"
-                className="modal__input modal__input_edit_pic"
-                placeholder="link"
-                required
-              />
-              <span id="url-input-error" className="modal__input-error"></span>
-            </label>
-          </PopupWithForm>
+          />
+
           <PopupWithForm
             name="delete"
             title="Are you sure?"
             submitBtnText="Yes"
-            // onSubmit={handleCardDelete}
             isOpen={isDeleteCardPopupOpen}
             onClose={handleCloseAllPopups}
           ></PopupWithForm>
-          {/* <PopupWithForm
-            name="edit"
-            title="Edit profile"
-            submitBtnText="Save"
-            isOpen={isEditProfilePopupOpen}
-            onClose={handleCloseAllPopups}
-          >
-            <label name="">
-              <input
-                id="name-input"
-                name="name"
-                type="text"
-                className="modal__input modal__input_profile_name"
-                placeholder="Name"
-                required
-                minLength="2"
-                maxLength="40"
-              />
-              <span id="name-input-error" className="modal__input-error"></span>
-            </label>
-            <label name="">
-              <input
-                id="title-input"
-                name="title"
-                type="text"
-                className="modal__input modal__input_profile_title"
-                placeholder="About me"
-                required
-                minLength="2"
-                maxLength="200"
-              />
 
-              <span
-                id="title-input-error"
-                className="modal__input-error"
-              ></span>
-            </label>
-          </PopupWithForm> */}
           <PopupWithForm
             name="add"
             title="New Place"

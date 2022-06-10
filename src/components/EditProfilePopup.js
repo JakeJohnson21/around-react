@@ -5,19 +5,15 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
   const CurrentUser = React.useContext(CurrentUserContext);
+
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
 
-  React.useEffect(() => {
-    setName(CurrentUser.name);
-    setDescription(CurrentUser.about);
-  }, [CurrentUser]);
-
   function handleName(e) {
-    setName(e.target.name);
+    setName(e.target.value);
   }
   function handleDescription(e) {
-    setDescription(e.target.description);
+    setDescription(e.target.value);
   }
 
   function handleSubmit(e) {
@@ -27,6 +23,10 @@ function EditProfilePopup(props) {
       about: description,
     });
   }
+  React.useEffect(() => {
+    setName(CurrentUser.name);
+    setDescription(CurrentUser.about);
+  }, [CurrentUser]);
 
   return (
     <PopupWithForm
@@ -35,7 +35,7 @@ function EditProfilePopup(props) {
       submitBtnText="Save"
       isOpen={props.isOpen}
       onClose={props.onClose}
-      onSubmit={handleSubmit}
+      onSubmit={props.handleUpdateUser}
     >
       <label name="">
         <input
