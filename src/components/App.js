@@ -30,16 +30,17 @@ function App() {
       .then(() => {
         setCurrentUser({ profile });
       })
+      .then(() => {
+        api.getProfileInfo().then((user) => {
+          setCurrentUser(user);
+        });
+      })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
   React.useEffect(() => {
-    api
-      .getProfileInfo()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch((err) => console.error(`Error: ${err.status}`));
+    api.getProfileInfo();
   }, []);
+
   function handleCardClick(card) {
     setSelectedCard(card);
   }

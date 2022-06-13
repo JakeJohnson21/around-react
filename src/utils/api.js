@@ -34,8 +34,8 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: user.name,
-        about: user.title,
-        avatar: user.link,
+        about: user.about,
+        avatar: user.avatar,
       }),
     }).then((res) => this._getResponseData(res));
   }

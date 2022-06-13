@@ -22,6 +22,7 @@ function EditProfilePopup(props) {
       name,
       about: description,
     });
+    props.onClose();
   }
   React.useEffect(() => {
     setName(CurrentUser.name);
@@ -35,7 +36,7 @@ function EditProfilePopup(props) {
       submitBtnText="Save"
       isOpen={props.isOpen}
       onClose={props.onClose}
-      onSubmit={props.handleUpdateUser}
+      onSubmit={handleSubmit}
     >
       <label name="">
         <input
