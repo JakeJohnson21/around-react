@@ -1,10 +1,10 @@
 import "../index.css";
-import React, { useContext } from "react";
+import React from "react";
 import trashSrc from "../images/Trash.svg";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = React.useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some((user) => user._id === currentUser._id);
   const cardDeleteButtonClassName = `card__trash ${

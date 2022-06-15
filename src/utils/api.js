@@ -35,7 +35,6 @@ class Api {
       body: JSON.stringify({
         name: user.name,
         about: user.about,
-        avatar: user.avatar,
       }),
     }).then((res) => this._getResponseData(res));
   }
@@ -46,7 +45,7 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: user.link,
+        avatar: user.avatar,
       }),
     }).then((res) => this._getResponseData(res));
   }

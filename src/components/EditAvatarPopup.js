@@ -1,7 +1,18 @@
 import React from "react";
+
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
+  const avatarRef = React.useRef({});
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateAvatar({
+      avatar: avatarRef.current.value,
+    });
+    props.onClose();
+  }
+
   return (
     <PopupWithForm
       name="pic"
@@ -9,9 +20,11 @@ function EditAvatarPopup(props) {
       submitBtnText="Save"
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <label name="">
         <input
+          ref={avatarRef}
           id="pic-input"
           name="link"
           type="url"

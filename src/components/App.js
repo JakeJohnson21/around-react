@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -28,17 +29,72 @@ function App() {
     api
       .updateProfile(profile)
       .then(() => {
-        setCurrentUser({ profile });
-      })
-      .then(() => {
-        api.getProfileInfo().then((user) => {
-          setCurrentUser(user);
-        });
+        setCurrentUser(profile);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
+
+  function handleUpdateAvatar(avatar) {
+    api
+      .updateProfilePicture(avatar)
+      .then(() => {
+        setCurrentUser(avatar);
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
+  }
+
   React.useEffect(() => {
-    api.getProfileInfo();
+    api
+      .getProfileInfo()
+      .then((profile) => {
+        setCurrentUser(profile);
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
+  }, []);
+
+  const [cards, setCard] = React.useState([]);
+
+  function handleAddPlaceSubmit(newCard) {
+    api
+      .postNewCard(newCard)
+      .then(() => {
+        setCard([newCard, ...cards]);
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCard((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+  }
+
+  function handleCardDelete(card) {
+    const isOwn = card.owner._id === currentUser._id;
+    api
+      .deleteCard(card._id)
+      .then((deleteCard) => {
+        setCard((state) =>
+          state.filter((currentCard) =>
+            currentCard._id === isOwn ? deleteCard : currentCard
+          )
+        );
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
+  }
+
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then((card) => {
+        setCard(card);
+      })
+      .catch((err) => console.error(`Error: ${err.status}`));
   }, []);
 
   function handleCardClick(card) {
@@ -78,6 +134,9 @@ function App() {
             onAddPlaceClick={handleAddPlaceClick}
             onCardClick={handleCardClick}
             onCardDeleteClick={handleDeleteCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <ImagePopup card={selectedCard} onClose={handleCloseAllPopups} />
           <EditProfilePopup
@@ -89,6 +148,7 @@ function App() {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={handleCloseAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
           />
 
           <PopupWithForm
@@ -99,34 +159,11 @@ function App() {
             onClose={handleCloseAllPopups}
           ></PopupWithForm>
 
-          <PopupWithForm
-            name="add"
-            title="New Place"
-            submitBtnText="Create"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={handleCloseAllPopups}
-          >
-            <input
-              id="place-input"
-              name="name"
-              type="text"
-              className="modal__input modal__input_image_title"
-              placeholder="Title"
-              required
-              minLength="1"
-              maxLength="30"
-            />
-            <span id="place-input-error" className="modal__input-error"></span>
-            <input
-              id="url-input"
-              name="link"
-              type="url"
-              className="modal__input modal__input_image_link"
-              placeholder="Image link"
-              required
-            />
-            <span id="url-input-error" className="modal__input-error"></span>
-          </PopupWithForm>
+            onAddPlaceSubmit={handleAddPlaceSubmit}
+          ></AddPlacePopup>
           <Footer />
         </section>
       </CurrentUserContext.Provider>
