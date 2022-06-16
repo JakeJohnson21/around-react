@@ -28,8 +28,8 @@ function App() {
   function handleUpdateUser(profile) {
     api
       .updateProfile(profile)
-      .then(() => {
-        setCurrentUser(profile);
+      .then((newProfile) => {
+        setCurrentUser(newProfile);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
@@ -37,8 +37,8 @@ function App() {
   function handleUpdateAvatar(avatar) {
     api
       .updateProfilePicture(avatar)
-      .then(() => {
-        setCurrentUser(avatar);
+      .then((newUser) => {
+        setCurrentUser(newUser);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
@@ -57,8 +57,8 @@ function App() {
   function handleAddPlaceSubmit(newCard) {
     api
       .postNewCard(newCard)
-      .then(() => {
-        setCard([newCard, ...cards]);
+      .then((generatedCard) => {
+        setCard([generatedCard, ...cards]);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
