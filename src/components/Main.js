@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../index.css";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">
@@ -21,7 +21,7 @@ function Main(props) {
               className="profile__pic-button"
               type="button"
               aria-label="edit profile"
-            ></button>
+            />
           </div>
           <div className="profile__main">
             <div className="profile__title">
@@ -31,7 +31,7 @@ function Main(props) {
                 className="profile__edit-button"
                 type="button"
                 aria-label="edit profile"
-              ></button>
+              />
             </div>
             <p className="profile__text-job">{currentUser.about}</p>
           </div>
@@ -42,7 +42,7 @@ function Main(props) {
           className="profile__add"
           type="button"
           aria-label="add"
-        ></button>
+        />
       </section>
 
       <section className="cards">

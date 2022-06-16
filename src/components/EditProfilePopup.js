@@ -1,13 +1,13 @@
 import "../index.css";
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
-  const CurrentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [name, setName] = useState("Jake");
+  const [description, setDescription] = useState("Software Engineer");
 
   function handleName(e) {
     setName(e.target.value);
@@ -24,10 +24,10 @@ function EditProfilePopup(props) {
     });
     props.onClose();
   }
-  React.useEffect(() => {
-    setName(CurrentUser.name);
-    setDescription(CurrentUser.about);
-  }, [CurrentUser]);
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]);
 
   return (
     <PopupWithForm
@@ -45,12 +45,12 @@ function EditProfilePopup(props) {
           onChange={handleName}
           type="text"
           className="modal__input modal__input_profile_name"
-          placeholder={CurrentUser.name}
+          placeholder="Name"
           required
           minLength="2"
           maxLength="40"
         />
-        <span id="name-input-error" className="modal__input-error"></span>
+        <span id="name-input-error" className="modal__input-error" />
       </label>
       <label name="">
         <input
@@ -59,13 +59,13 @@ function EditProfilePopup(props) {
           onChange={handleDescription}
           type="text"
           className="modal__input modal__input_profile_title"
-          placeholder={CurrentUser.about}
+          placeholder="Description"
           required
           minLength="2"
           maxLength="200"
         />
 
-        <span id="title-input-error" className="modal__input-error"></span>
+        <span id="title-input-error" className="modal__input-error" />
       </label>
     </PopupWithForm>
   );

@@ -1,11 +1,15 @@
 import "../index.css";
 
-function ImagePopup({ card, onClose }) {
+function ImagePopup(card, onClose) {
   <div className={`modal js-preview-modal ${card ? "modal__is-opened" : ""}`}>
     <div className="modal__container modal__container_preview">
-      <button className="modal__close-button" type="button" aria-label="close">
-        {onClose}
-      </button>
+      <button
+        className="modal__close-button"
+        type="button"
+        aria-label="close"
+        onClick={onClose}
+      />
+
       <img
         className="modal__preview-image"
         src={card ? card.link : ""}

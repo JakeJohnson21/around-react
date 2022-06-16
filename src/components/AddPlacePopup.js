@@ -1,11 +1,10 @@
 import "../index.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-// import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function AddPlacePopup(props) {
-  const [name, setName] = React.useState("");
-  const [link, setLink] = React.useState("");
+  const [name, setName] = useState("");
+  const [link, setLink] = useState("");
 
   function handleName(e) {
     setName(e.target.value);
@@ -22,6 +21,10 @@ function AddPlacePopup(props) {
     });
     props.onClose();
   }
+  // useEffect(() => {
+  //   setName("");
+  //   setLink("");
+  // }, [props.isOpen]);
 
   return (
     <PopupWithForm
@@ -43,7 +46,7 @@ function AddPlacePopup(props) {
         minLength="1"
         maxLength="30"
       />
-      <span id="place-input-error" className="modal__input-error"></span>
+      <span id="place-input-error" className="modal__input-error" />
       <input
         id="url-input"
         name="link"
@@ -53,7 +56,7 @@ function AddPlacePopup(props) {
         placeholder="Image link"
         required
       />
-      <span id="url-input-error" className="modal__input-error"></span>
+      <span id="url-input-error" className="modal__input-error" />
     </PopupWithForm>
   );
 }

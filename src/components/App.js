@@ -1,5 +1,5 @@
 import "../index.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -13,37 +13,30 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   //________________________________________________________________________//
-  // MY ATTEMPT AT SETTING THE STATE VARIABLES FOR THE POPUP VISIBILITY
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
 
-  const [selectedCard, setSelectedCard] = React.useState({});
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] =
-    React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
 
   function handleUpdateUser(profile) {
     api
       .updateProfile(profile)
-      .then((newProfile) => {
-        setCurrentUser(newProfile);
-      })
+      .then(setCurrentUser)
       .catch((err) => console.error(`Error: ${err.status}`));
   }
 
   function handleUpdateAvatar(avatar) {
     api
       .updateProfilePicture(avatar)
-      .then((newUser) => {
-        setCurrentUser(newUser);
-      })
+      .then(setCurrentUser)
       .catch((err) => console.error(`Error: ${err.status}`));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     api
       .getProfileInfo()
       .then((profile) => {
@@ -52,7 +45,7 @@ function App() {
       .catch((err) => console.error(`Error: ${err.status}`));
   }, []);
 
-  const [cards, setCard] = React.useState([]);
+  const [cards, setCard] = useState([]);
 
   function handleAddPlaceSubmit(newCard) {
     api
@@ -75,20 +68,20 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    const isOwn = card.owner._id === currentUser._id;
+    // const isOwn = card.owner._id === currentUser._id;
     api
       .deleteCard(card._id)
       .then((deleteCard) => {
         setCard((state) =>
           state.filter((currentCard) =>
-            currentCard._id === isOwn ? deleteCard : currentCard
+            currentCard._id === deleteCard._id ? false : true
           )
         );
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     api
       .getInitialCards()
       .then((card) => {
@@ -157,13 +150,13 @@ function App() {
             submitBtnText="Yes"
             isOpen={isDeleteCardPopupOpen}
             onClose={handleCloseAllPopups}
-          ></PopupWithForm>
+          />
 
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={handleCloseAllPopups}
             onAddPlaceSubmit={handleAddPlaceSubmit}
-          ></AddPlacePopup>
+          />
           <Footer />
         </section>
       </CurrentUserContext.Provider>

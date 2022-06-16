@@ -1,10 +1,10 @@
 import "../index.css";
-import React from "react";
+import React, { useContext } from "react";
 import trashSrc from "../images/Trash.svg";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some((user) => user._id === currentUser._id);
   const cardDeleteButtonClassName = `card__trash ${
@@ -13,6 +13,11 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardLikeButtonClassName = `card__like-button ${
     isLiked ? `card__like-button_active` : `card__like-button_hidden`
   }`;
+
+  function handleClick() {
+    onCardClick(card);
+  }
+
   function handleLikeClick() {
     onCardLike(card);
   }
@@ -24,7 +29,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     <div className="card__item" key={card._id}>
       <img
         className="card__image"
-        onClick={onCardClick}
+        onClick={handleClick}
         src={card.link}
         alt=""
       />
@@ -43,7 +48,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
             type="button"
             aria-label="like"
             onClick={handleLikeClick}
-          ></button>
+          />
           <p className="card__like-text">{card.likes.length}</p>
         </div>
       </div>

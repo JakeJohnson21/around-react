@@ -1,33 +1,39 @@
 import "../index.css";
 
-function PopupWithForm(props) {
+function PopupWithForm({
+  name,
+  isOpen,
+  title,
+  children,
+  submitBtnText,
+  onSubmit,
+  onClose,
+}) {
   return (
     <div
-      className={`modal js-${props.name}-modal ${
-        props.isOpen ? "modal__is-opened" : ""
-      } `}
+      className={`modal js-${name}-modal ${isOpen ? "modal__is-opened" : ""} `}
     >
       {
         <div className="modal__container">
-          <form className="modal__box" name={props.name} noValidate>
-            <h2 className="modal__profile">{props.title}</h2>
-            {props.children}
+          <form className="modal__box" name={name} noValidate>
+            <h2 className="modal__profile">{title}</h2>
+            {children}
 
             <button
               type="submit"
               className="modal__button"
-              aria-label={props.submitBtnText}
-              onClick={props.onSubmit}
+              aria-label={submitBtnText}
+              onClick={onSubmit}
             >
-              {props.submitBtnText}
+              {submitBtnText}
             </button>
           </form>
           <button
             className="modal__close-button"
             type="button"
             aria-label="close"
-            onClick={props.onClose}
-          ></button>
+            onClick={onClose}
+          />
         </div>
       }
     </div>
