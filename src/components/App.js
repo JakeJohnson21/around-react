@@ -45,13 +45,13 @@ function App() {
       .catch((err) => console.error(`Error: ${err.status}`));
   }, []);
 
-  const [cards, setCard] = useState([]);
+  const [cards, setCards] = useState([]);
 
   function handleAddPlaceSubmit(newCard) {
     api
       .postNewCard(newCard)
       .then((generatedCard) => {
-        setCard([generatedCard, ...cards]);
+        setCards([generatedCard, ...cards]);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }
@@ -59,7 +59,7 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCard((state) =>
+      setCards((state) =>
         state.map((currentCard) =>
           currentCard._id === card._id ? newCard : currentCard
         )
@@ -68,13 +68,12 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    // const isOwn = card.owner._id === currentUser._id;
     api
       .deleteCard(card._id)
       .then((deleteCard) => {
-        setCard((state) =>
-          state.filter((currentCard) =>
-            currentCard._id === deleteCard._id ? false : true
+        setCards((currentCards) =>
+          currentCards.filter(
+            (currentCard) => currentCard._id !== deleteCard._id
           )
         );
       })
@@ -85,7 +84,7 @@ function App() {
     api
       .getInitialCards()
       .then((card) => {
-        setCard(card);
+        setCards(card);
       })
       .catch((err) => console.error(`Error: ${err.status}`));
   }, []);

@@ -21,10 +21,10 @@ function AddPlacePopup(props) {
     });
     props.onClose();
   }
-  // useEffect(() => {
-  //   setName("");
-  //   setLink("");
-  // }, [props.isOpen]);
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [props.isOpen]);
 
   return (
     <PopupWithForm
@@ -40,6 +40,7 @@ function AddPlacePopup(props) {
         name="name"
         onChange={handleName}
         type="text"
+        value={name || ""}
         className="modal__input modal__input_image_title"
         placeholder="Title"
         required
@@ -51,6 +52,7 @@ function AddPlacePopup(props) {
         id="url-input"
         name="link"
         onChange={handleLink}
+        value={link || ""}
         type="url"
         className="modal__input modal__input_image_link"
         placeholder="Image link"
