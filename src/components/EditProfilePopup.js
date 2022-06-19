@@ -1,4 +1,3 @@
-import "../index.css";
 import React, { useState, useEffect, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -6,8 +5,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = useState("Jake");
-  const [description, setDescription] = useState("Software Engineer");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   function handleName(e) {
     setName(e.target.value);
@@ -43,6 +42,7 @@ function EditProfilePopup(props) {
           id="name-input"
           name="name"
           onChange={handleName}
+          value={name || ""}
           type="text"
           className="modal__input modal__input_profile_name"
           placeholder="Name"
@@ -57,6 +57,7 @@ function EditProfilePopup(props) {
           id="title-input"
           name="title"
           onChange={handleDescription}
+          value={description || ""}
           type="text"
           className="modal__input modal__input_profile_title"
           placeholder="Description"

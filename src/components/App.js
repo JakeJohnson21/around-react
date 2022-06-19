@@ -13,7 +13,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   //________________________________________________________________________//
-
+  const [isPreviewPopupOpen, setIsPreviewPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -104,11 +104,14 @@ function App() {
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
+  function handlePreviewPopupClick() {
+    setIsPreviewPopupOpen(true);
+  }
   function handleCloseAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard({});
+    setIsPreviewPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
   }
 
@@ -124,13 +127,18 @@ function App() {
             onEditAvatarClick={handleEditAvatarClick}
             onEditProfileClick={handleEditProfileClick}
             onAddPlaceClick={handleAddPlaceClick}
+            onPreviewPopupClick={handlePreviewPopupClick}
             onCardClick={handleCardClick}
             onCardDeleteClick={handleDeleteCardClick}
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
           />
-          <ImagePopup card={selectedCard} onClose={handleCloseAllPopups} />
+          <ImagePopup
+            isOpen={isPreviewPopupOpen}
+            card={selectedCard}
+            onClose={handleCloseAllPopups}
+          />
           <EditProfilePopup
             submitBtnText="Save"
             isOpen={isEditProfilePopupOpen}

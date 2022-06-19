@@ -1,9 +1,14 @@
-import "../index.css";
 import React, { useContext } from "react";
 import trashSrc from "../images/Trash.svg";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+function Card({
+  card,
+  onPreviewPopupClick,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some((user) => user._id === currentUser._id);
@@ -16,6 +21,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   function handleClick() {
     onCardClick(card);
+    onPreviewPopupClick();
   }
 
   function handleLikeClick() {

@@ -1,5 +1,3 @@
-import "../index.css";
-
 function PopupWithForm({
   name,
   isOpen,

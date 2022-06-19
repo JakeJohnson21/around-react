@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "../index.css";
+
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -50,6 +50,7 @@ function Main(props) {
           <Card
             key={card._id}
             card={card}
+            onPreviewPopupClick={props.onPreviewPopupClick}
             onCardClick={props.onCardClick}
             onCardLike={props.onCardLike}
             onCardDelete={props.onCardDelete}
